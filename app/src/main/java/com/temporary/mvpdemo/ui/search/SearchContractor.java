@@ -8,11 +8,13 @@ import java.util.List;
 public interface SearchContractor {
 
     interface View extends BaseContractor.View {
-        void setSearchList(List<User> users);
+        void addSearchList(List<User> users);
+
+        void setLastPage(int LastPage);
     }
 
     interface Presenter {
-        void searchListener(CharSequence query);
+        void getSearchResult(CharSequence query, int page);
     }
 
 }

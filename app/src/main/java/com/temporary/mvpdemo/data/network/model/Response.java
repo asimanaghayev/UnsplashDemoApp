@@ -1,11 +1,12 @@
 
 package com.temporary.mvpdemo.data.network.model;
 
+import java.io.Serializable;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Response<T> {
+public class Response<T> implements Serializable {
 
     @SerializedName("total")
     @Expose

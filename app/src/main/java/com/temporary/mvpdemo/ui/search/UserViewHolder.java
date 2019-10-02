@@ -33,7 +33,7 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
         view = itemView;
     }
 
-    public void bind(Context context, final User user, final UserItemClickListener userItemClickListener) {
+    public void bind(Context context, final User user, final ItemClickListener userItemClickListener) {
         if (user != null) {
             Picasso.get()
                     .load(user.getProfileImage().getMedium())

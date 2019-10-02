@@ -16,28 +16,20 @@ public class SearchPresenter extends BasePresenter implements SearchContractor.P
 
     private SearchInteractor searchInteractor = new SearchInteractor();
 
-    public SearchPresenter(SearchContractor.View view) {
+    SearchPresenter(SearchContractor.View view) {
         this.view = view;
     }
 
-    public SearchContractor.View getView() {
-        return view;
-    }
-
-    public void setView(SearchContractor.View view) {
-        this.view = view;
-    }
-
-    public void searchListener(CharSequence query) {
-        searchInteractor.getSearchResult(new SearchUsersObserver(view), query.toString());
+    public void getSearchResult(CharSequence query, int page) {
+        view.showProgress();
+        searchInteractor.getSearchResult(new SearchUsersObserver(view), query.toString(), page);
     }
 
     public class SearchUsersObserver implements Subscriber<Response>, Observer<Response> {
 
-        public SearchUsersObserver(SearchContractor.View view) {
+        SearchUsersObserver(SearchContractor.View view) {
 
         }
-
 
         @Override
         public void onSubscribe(Disposable d) {
@@ -50,10 +42,11 @@ public class SearchPresenter extends BasePresenter implements SearchContractor.P
         }
 
         @Override
-        public void onNext(Response searchUsers) {
+        public void onNext(Response results) {
             try {
-                if (searchUsers.getResults() != null)
-                    view.setSearchList(searchUsers.getResults());
+                assert results != null;
+                view.setLastPage(results.getTotalPages());
+                view.addSearchList(results.getResults());
             } catch (Exception exp) {
                 exp.printStackTrace();
             }
@@ -66,7 +59,7 @@ public class SearchPresenter extends BasePresenter implements SearchContractor.P
 
         @Override
         public void onComplete() {
-
+            view.hideProgress();
         }
     }
 }

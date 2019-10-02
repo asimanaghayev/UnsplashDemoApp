@@ -18,8 +18,8 @@ public class SearchInteractor {
         service = RetrofitClientInstance.getRetrofitInstance().create(NetworkService.class);
     }
 
-    public void getSearchResult(Observer<Response> observer, String query) {
-        service.searchUsersRX(accessToken, query)
+    public void getSearchResult(Observer<Response> observer, String query, int page) {
+        service.searchUsersRX(accessToken, query, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

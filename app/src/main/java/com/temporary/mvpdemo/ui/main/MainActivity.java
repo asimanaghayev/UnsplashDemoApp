@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +17,15 @@ import com.temporary.mvpdemo.R;
 import com.temporary.mvpdemo.data.network.model.Photos;
 import com.temporary.mvpdemo.ui.base.BaseActivity;
 import com.temporary.mvpdemo.ui.search.SearchActivity;
+import com.temporary.mvpdemo.util.PaginationListener;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.temporary.mvpdemo.ui.search.SearchActivity.SEARCH_RESULT;
 
 public class MainActivity extends BaseActivity implements MainContractor.View {
 
@@ -46,11 +51,6 @@ public class MainActivity extends BaseActivity implements MainContractor.View {
         }
 
         @Override
-        public boolean isLastPage() {
-            return false;
-        }
-
-        @Override
         public boolean isLoading() {
             return progressBar.getVisibility() == View.VISIBLE;
         }
@@ -63,7 +63,7 @@ public class MainActivity extends BaseActivity implements MainContractor.View {
         ButterKnife.bind(this);
 
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
-
+        //Objects.requireNonNull(getIntent().getExtras()).getSerializable(SEARCH_RESULT);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(photoAdapter);
         recyclerView.addOnScrollListener(paginationListener);
@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity implements MainContractor.View {
     }
 
     public void addPhotos(List<Photos> photos) {
-        photoAdapter.addAdapterPhotos(photos);
+        photoAdapter.addPhotos(photos);
         photoAdapter.notifyDataSetChanged();
 //        recyclerView.setAdapter(photoAdapter);
     }

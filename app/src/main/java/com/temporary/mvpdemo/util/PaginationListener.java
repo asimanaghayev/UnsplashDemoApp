@@ -1,4 +1,4 @@
-package com.temporary.mvpdemo.ui.main;
+package com.temporary.mvpdemo.util;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -6,9 +6,13 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 public abstract class PaginationListener extends RecyclerView.OnScrollListener {
 
-    public static final int PAGE_START = 1;
+    public static final int PAGE_START = 2;
+
     private static final int PAGE_SIZE = 10;
-    int pageCount = PAGE_START;
+
+    private int lastPage = -1;
+
+    private int pageCount = PAGE_START;
 
     @NonNull
     private StaggeredGridLayoutManager layoutManager;
@@ -30,15 +34,23 @@ public abstract class PaginationListener extends RecyclerView.OnScrollListener {
             if ((visibleItemCount + firstVisibleItemPosition[0]) >= totalItemCount &&
                     firstVisibleItemPosition[0] >= 0 &&
                     totalItemCount >= PAGE_SIZE) {
-                pageCount++;
                 loadMoreItems(pageCount);
+                pageCount++;
             }
         }
     }
 
-    protected abstract void loadMoreItems(int pageCount);
+    private boolean isLastPage() {
+        if (lastPage != -1)
+            return lastPage < pageCount;
+        return false;
+    }
 
-    public abstract boolean isLastPage();
+    public void setLastPage(int lastPage) {
+        this.lastPage = lastPage;
+    }
+
+    protected abstract void loadMoreItems(int pageCount);
 
     public abstract boolean isLoading();
 }

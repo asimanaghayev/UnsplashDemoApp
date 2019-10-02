@@ -9,4 +9,6 @@ public class AppConstants {
     public static final String PREF_NAME = "mvp_demo_pref";
 
     public static final String DB_NAME = "mvp_demo_db";
+
+
 }

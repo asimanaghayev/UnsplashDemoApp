@@ -2,7 +2,9 @@ package com.temporary.mvpdemo.data.network.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Photos {
+import java.io.Serializable;
+
+public class Photos implements Serializable {
     @SerializedName("width")
     private int width;
 

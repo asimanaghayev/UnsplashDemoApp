@@ -29,11 +29,15 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         this.mPhotos = mPhotos;
     }
 
-    public void addAdapterPhotos(List<Photos> photos) {
+    public void addPhotos(List<Photos> photos) {
         if (mPhotos == null)
             this.mPhotos = photos;
         else
             this.mPhotos.addAll(photos);
+    }
+
+    public void clear() {
+        mPhotos.clear();
     }
 
     @NonNull

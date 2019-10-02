@@ -16,9 +16,9 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
     private Context context;
     private List<User> users;
-    private UserItemClickListener userItemClickListener;
+    private ItemClickListener userItemClickListener;
 
-    public UserAdapter(Context context, List<User> users, UserItemClickListener userItemClickListener) {
+    public UserAdapter(Context context, List<User> users, ItemClickListener userItemClickListener) {
         this.context = context;
         this.users = users;
         this.userItemClickListener = userItemClickListener;
@@ -41,7 +41,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserViewHolder> {
         return users.size();
     }
 
-    public void updateUsers(List<User> users) {
-        this.users = users;
+    public void clear() {
+        users.clear();
+    }
+
+
+    public void addUsers(List<User> users) {
+        this.users.addAll(users);
     }
 }

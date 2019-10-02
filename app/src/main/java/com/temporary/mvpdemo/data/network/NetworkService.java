@@ -32,6 +32,7 @@ public interface NetworkService {
     @GET("/search/users/")
     Observable<Response<User>> searchUsersRX(
             @Query(CLIENT_ID) String access,
-            @Query(QUERY) String query
+            @Query(QUERY) String query,
+            @Query(PAGE_COUNT) int page
     );
 }

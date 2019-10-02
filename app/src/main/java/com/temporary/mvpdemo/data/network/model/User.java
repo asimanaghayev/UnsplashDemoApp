@@ -3,7 +3,10 @@ package com.temporary.mvpdemo.data.network.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+import java.util.List;
+
+public class User implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -56,6 +59,9 @@ public class User {
     @SerializedName("accepted_tos")
     @Expose
     private Boolean acceptedTos;
+    @SerializedName("photos")
+    @Expose
+    private List<Photos> photos = null;
 
     public String getId() {
         return id;
@@ -193,4 +199,11 @@ public class User {
         this.acceptedTos = acceptedTos;
     }
 
+    public List<Photos> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photos> photos) {
+        this.photos = photos;
+    }
 }
