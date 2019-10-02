@@ -4,7 +4,7 @@ apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.temporary.mvpdemo"
+        applicationId "com.temporary.unsplashdemo"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
