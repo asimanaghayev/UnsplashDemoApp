@@ -10,7 +10,9 @@ public interface BaseContractor {
         void hideProgress();
     }
 
-    interface Presenter {
+    interface Presenter<V extends BaseContractor.View> {
+        V getView();
 
+        void setView(V view);
     }
 }

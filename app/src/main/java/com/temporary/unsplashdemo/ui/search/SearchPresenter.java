@@ -7,22 +7,24 @@ import com.temporary.unsplashdemo.ui.base.BasePresenter;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class SearchPresenter extends BasePresenter implements SearchContractor.Presenter {
-
-    private SearchContractor.View view;
+public class SearchPresenter<V extends SearchContractor.View> extends BasePresenter<V>
+        implements SearchContractor.Presenter<V> {
 
     private SearchInteractor searchInteractor = new SearchInteractor();
 
-    SearchPresenter(SearchContractor.View view) {
-        this.view = view;
+    @Inject
+    public SearchPresenter() {
+
     }
 
     public void getSearchResult(CharSequence query, int page) {
-        view.showProgress();
-        searchInteractor.getSearchResult(new SearchUsersObserver(view), query.toString(), page);
+        getView().showProgress();
+        searchInteractor.getSearchResult(new SearchUsersObserver(getView()), query.toString(), page);
     }
 
     public class SearchUsersObserver implements Subscriber<Response>, Observer<Response> {
@@ -45,8 +47,8 @@ public class SearchPresenter extends BasePresenter implements SearchContractor.P
         public void onNext(Response results) {
             try {
                 assert results != null;
-                view.setLastPage(results.getTotalPages());
-                view.addSearchList(results.getResults());
+                getView().setLastPage(results.getTotalPages());
+                getView().addSearchList(results.getResults());
             } catch (Exception exp) {
                 exp.printStackTrace();
             }
@@ -59,7 +61,7 @@ public class SearchPresenter extends BasePresenter implements SearchContractor.P
 
         @Override
         public void onComplete() {
-            view.hideProgress();
+            getView().hideProgress();
         }
     }
 }

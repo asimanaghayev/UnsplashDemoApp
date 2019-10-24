@@ -8,28 +8,26 @@ import com.temporary.unsplashdemo.util.DataConverterUtil;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.disposables.Disposable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainPresenter extends BasePresenter implements MainContractor.Presenter {
-
-    private MainContractor.View view;
+public class MainPresenter<V extends MainContractor.View> extends BasePresenter<V>
+        implements MainContractor.Presenter<V> {
 
     private PhotosInteractor photosInteractor = new PhotosInteractor();
 
-    public MainPresenter(MainContractor.View view) {
-        this.view = view;
+    @Inject
+    public MainPresenter() {
+    }
+
+    @Override
+    public void setView(V view) {
+        super.setView(view);
         getFirstPage();
-    }
-
-    public MainContractor.View getView() {
-        return view;
-    }
-
-    public void setView(MainContractor.View view) {
-        this.view = view;
     }
 
     private void getFirstPage() {
@@ -37,9 +35,9 @@ public class MainPresenter extends BasePresenter implements MainContractor.Prese
     }
 
     public void getNextPage(int pageCount) {
-        view.showProgress();
+        getView().showProgress();
 //        photosInteractor.fetchPhotoList(new FetchPhotosCallBack(), pageCount);
-        photosInteractor.fetchPhotoListRX(new FetchPhotosObserver(view), pageCount);
+        photosInteractor.fetchPhotoListRX(new FetchPhotosObserver(getView()), pageCount);
     }
 
     public class FetchPhotosObserver extends BaseSubscriber<Object> {
@@ -51,7 +49,7 @@ public class MainPresenter extends BasePresenter implements MainContractor.Prese
         @Override
         public void onComplete() {
             super.onComplete();
-            view.hideProgress();
+            getView().hideProgress();
         }
 
         @Override
@@ -68,7 +66,7 @@ public class MainPresenter extends BasePresenter implements MainContractor.Prese
                 if (photos == null)
                     return;
 
-                view.addPhotos(photos);
+                getView().addPhotos(photos);
             } catch (Exception e) {
 //                HttpResponseHandlerUtil.onAPIError(view, null, e);
                 e.printStackTrace();
@@ -81,14 +79,14 @@ public class MainPresenter extends BasePresenter implements MainContractor.Prese
         @Override
         public void onResponse(Call<List<Photos>> call, Response<List<Photos>> response) {
             if (response.isSuccessful())
-                view.addPhotos(response.body());
+                getView().addPhotos(response.body());
             else
-                view.showToast("Response Error");
+                getView().showToast("Response Error");
         }
 
         @Override
         public void onFailure(Call<List<Photos>> call, Throwable t) {
-            view.showToast("API Error: " + t.getMessage());
+            getView().showToast("API Error: " + t.getMessage());
         }
     }
 }

@@ -20,6 +20,8 @@ import com.temporary.unsplashdemo.util.PaginationListener;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -34,7 +36,8 @@ public class MainActivity extends BaseActivity implements MainContractor.View {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    private MainContractor.Presenter presenter;
+    @Inject
+    MainContractor.Presenter presenter;
 
     private PhotoAdapter photoAdapter = new PhotoAdapter();
 
@@ -57,6 +60,8 @@ public class MainActivity extends BaseActivity implements MainContractor.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        getActivityComponent().inject(this);
+        presenter.setView(this);
 
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         //Objects.requireNonNull(getIntent().getExtras()).getSerializable(SEARCH_RESULT);
@@ -65,8 +70,6 @@ public class MainActivity extends BaseActivity implements MainContractor.View {
         recyclerView.addOnScrollListener(paginationListener);
 
         setSupportActionBar(toolbar);
-
-        presenter = new MainPresenter(this);
     }
 
     @Override

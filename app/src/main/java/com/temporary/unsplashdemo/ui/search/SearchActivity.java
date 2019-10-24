@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,6 +30,7 @@ public class SearchActivity extends BaseActivity implements SearchContractor.Vie
 
     public static final String SEARCH_RESULT = "SEARCH_RESULTS";
 
+    @Inject
     SearchContractor.Presenter presenter;
 
     @BindView(R.id.search_text)
@@ -62,6 +65,8 @@ public class SearchActivity extends BaseActivity implements SearchContractor.Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
+        getActivityComponent().inject(this);
+        presenter.setView(this);
 
         userAdapter = new UserAdapter(this, new ArrayList<>(), user -> {
         });
@@ -69,8 +74,6 @@ public class SearchActivity extends BaseActivity implements SearchContractor.Vie
         searchList.setLayoutManager(layoutManager);
         searchList.setAdapter(userAdapter);
         searchList.addOnScrollListener(paginationListener);
-
-        presenter = new SearchPresenter(this);
 
         RxTextView.textChanges(search)
                 .doOnNext(text -> userAdapter.clear())
