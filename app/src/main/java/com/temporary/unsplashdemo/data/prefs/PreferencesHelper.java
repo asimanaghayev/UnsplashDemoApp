@@ -14,17 +14,7 @@ public interface PreferencesHelper {
 
     void setUserEmail(String email);
 
-    String getUserProfilePicUrl();
-
-    void setUserProfilePicUrl(String profilePicUrl);
-
-    String getAccessToken();
-
-    void setAccessToken(String accessToken);
-
     String getUserMobile();
 
     void setUserMobile(String mobileNumber);
-
-    void logoutUser();
 }

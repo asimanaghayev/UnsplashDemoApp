@@ -10,15 +10,10 @@ import javax.inject.Inject;
 
 public class PreferencesManager implements PreferencesHelper {
 
-    private static final String PREF_KEY_USER_LOGGED_IN_MODE = "PREF_KEY_LOGGED_IN_MODE";
     private static final String PREF_KEY_USER_ID = "PREF_KEY_USER_ID";
     private static final String PREF_KEY_USER_MOBILE = "PREF_KEY_CURRENT_MOBILE";
     private static final String PREF_KEY_USER_NAME = "PREF_KEY_CURRENT_USER_NAME";
     private static final String PREF_KEY_USER_EMAIL = "PREF_KEY_CURRENT_USER_EMAIL";
-    private static final String PREF_KEY_ACCESS_TOKEN = "PREF_KEY_ACCESS_TOKEN";
-    private static final String PREF_KEY_FIRST_TIME = "PREF_KEY_FIRST_TIME";
-    private static final String PREF_KEY_USER_PROFILE_PIC_URL = "PREF_KEY_USER_PROFILE_PIC_URL";
-    private static final String PREF_KEY_COACH_MARK = "PREF_KEY_COACH_MARK";
 
     private final SharedPreferences mPrefs;
     private Context mAppContext;
@@ -51,16 +46,6 @@ public class PreferencesManager implements PreferencesHelper {
     }
 
     @Override
-    public String getUserProfilePicUrl() {
-        return mPrefs.getString(PREF_KEY_USER_PROFILE_PIC_URL, null);
-    }
-
-    @Override
-    public void setUserProfilePicUrl(String profilePicUrl) {
-        mPrefs.edit().putString(PREF_KEY_USER_PROFILE_PIC_URL, profilePicUrl).apply();
-    }
-
-    @Override
     public Long getUserId() {
         return mPrefs.getLong(PREF_KEY_USER_ID, 0);
     }
@@ -71,16 +56,6 @@ public class PreferencesManager implements PreferencesHelper {
     }
 
     @Override
-    public String getAccessToken() {
-        return mPrefs.getString(PREF_KEY_ACCESS_TOKEN, null);
-    }
-
-    @Override
-    public void setAccessToken(String accessToken) {
-        mPrefs.edit().putString(PREF_KEY_ACCESS_TOKEN, accessToken).apply();
-    }
-
-    @Override
     public String getUserMobile() {
         return mPrefs.getString(PREF_KEY_USER_MOBILE, "");
     }
@@ -88,10 +63,5 @@ public class PreferencesManager implements PreferencesHelper {
     @Override
     public void setUserMobile(String mobileNumber) {
         mPrefs.edit().putString(PREF_KEY_USER_MOBILE, mobileNumber).apply();
-    }
-
-    @Override
-    public void logoutUser() {
-        mPrefs.edit().clear().apply();
     }
 }
