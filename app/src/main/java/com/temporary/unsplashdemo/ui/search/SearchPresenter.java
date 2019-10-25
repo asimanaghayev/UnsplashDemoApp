@@ -1,15 +1,12 @@
 package com.temporary.unsplashdemo.ui.search;
 
 import com.temporary.unsplashdemo.data.interactors.SearchInteractor;
+import com.temporary.unsplashdemo.data.network.BaseSubscriber;
 import com.temporary.unsplashdemo.data.network.model.Response;
 import com.temporary.unsplashdemo.ui.base.BasePresenter;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
 import javax.inject.Inject;
 
-import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
 public class SearchPresenter<V extends SearchContractor.View> extends BasePresenter<V>
@@ -27,7 +24,7 @@ public class SearchPresenter<V extends SearchContractor.View> extends BasePresen
         searchInteractor.getSearchResult(new SearchUsersObserver(getView()), query.toString(), page);
     }
 
-    public class SearchUsersObserver implements Subscriber<Response>, Observer<Response> {
+    public class SearchUsersObserver extends BaseSubscriber<Response> {
 
         SearchUsersObserver(SearchContractor.View view) {
 
@@ -35,11 +32,6 @@ public class SearchPresenter<V extends SearchContractor.View> extends BasePresen
 
         @Override
         public void onSubscribe(Disposable d) {
-
-        }
-
-        @Override
-        public void onSubscribe(Subscription s) {
 
         }
 

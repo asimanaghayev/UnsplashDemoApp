@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Unsplash Demo</string>
+    <string name="toast_something_went_wrong">Something went wrong.</string>
 </resources>

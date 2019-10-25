@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.temporary.unsplashdemo.data.network.model.Error;
 import com.temporary.unsplashdemo.ui.base.BaseContractor;
-import com.temporary.unsplashdemo.ui.search.SearchContractor;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -23,7 +22,7 @@ public abstract class BaseSubscriber<R extends Object> implements Subscriber<R>,
     public BaseSubscriber() {
     }
 
-    public BaseSubscriber(SearchContractor.View view) {
+    public BaseSubscriber(BaseContractor.View view) {
         this.view = view;
     }
 
@@ -44,6 +43,7 @@ public abstract class BaseSubscriber<R extends Object> implements Subscriber<R>,
         }
 //
         try {
+            view.hideProgress();
             Gson gson = new Gson();
             if (e instanceof HttpException) {
                 Response response = ((HttpException) e).response();

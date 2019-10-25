@@ -4,7 +4,6 @@ import com.temporary.unsplashdemo.data.interactors.PhotosInteractor;
 import com.temporary.unsplashdemo.data.network.BaseSubscriber;
 import com.temporary.unsplashdemo.data.network.model.Photos;
 import com.temporary.unsplashdemo.ui.base.BasePresenter;
-import com.temporary.unsplashdemo.util.DataConverterUtil;
 
 import java.util.List;
 
@@ -40,7 +39,7 @@ public class MainPresenter<V extends MainContractor.View> extends BasePresenter<
         photosInteractor.fetchPhotoListRX(new FetchPhotosObserver(getView()), pageCount);
     }
 
-    public class FetchPhotosObserver extends BaseSubscriber<Object> {
+    public class FetchPhotosObserver extends BaseSubscriber<List<Photos>> {
 
         public FetchPhotosObserver(MainContractor.View view) {
 //            super(view);
@@ -58,11 +57,9 @@ public class MainPresenter<V extends MainContractor.View> extends BasePresenter<
         }
 
         @Override
-        public void onNext(Object o) {
-            super.onNext(o);
+        public void onNext(List<Photos> photos) {
+            super.onNext(photos);
             try {
-                List<Photos> photos = DataConverterUtil.parsePhotoSuccessResponse(o);
-
                 if (photos == null)
                     return;
 

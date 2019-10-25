@@ -1,8 +1,10 @@
 package com.temporary.unsplashdemo.data.interactors;
 
 import com.temporary.unsplashdemo.BuildConfig;
+import com.temporary.unsplashdemo.data.network.BaseSubscriber;
 import com.temporary.unsplashdemo.data.network.NetworkService;
 import com.temporary.unsplashdemo.data.network.RetrofitClientInstance;
+import com.temporary.unsplashdemo.data.network.model.Photo;
 import com.temporary.unsplashdemo.data.network.model.Photos;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public class PhotosInteractor {
 
     }
 
-    public void fetchPhotoListRX(Observer<Object> observer, int pageCount) {
+    public void fetchPhotoListRX(BaseSubscriber<List<Photos>> observer, int pageCount) {
         service.getPhotosRX(BuildConfig.ACCESS_TOKEN, pageCount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

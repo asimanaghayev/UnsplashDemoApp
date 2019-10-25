@@ -6,6 +6,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.temporary.unsplashdemo.R;
 import com.temporary.unsplashdemo.di.component.ActivityComponent;
 import com.temporary.unsplashdemo.di.component.DaggerActivityComponent;
 import com.temporary.unsplashdemo.di.module.ActivityModule;
@@ -32,7 +33,11 @@ public class BaseActivity extends AppCompatActivity implements BaseContractor.Vi
 
     @Override
     public void showToast(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        if(message != null) {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_something_went_wrong), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
