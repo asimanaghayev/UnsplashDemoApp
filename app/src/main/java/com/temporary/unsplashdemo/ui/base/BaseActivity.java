@@ -1,5 +1,6 @@
 package com.temporary.unsplashdemo.ui.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -50,5 +51,8 @@ public class BaseActivity extends AppCompatActivity implements BaseContractor.Vi
 
     }
 
+    public Context getContext(){
+        return this;
+    }
 }
 

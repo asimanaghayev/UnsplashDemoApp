@@ -1,9 +1,11 @@
 package com.temporary.unsplashdemo.ui.main;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.temporary.unsplashdemo.data.interactors.PhotosInteractor;
 import com.temporary.unsplashdemo.data.network.BaseSubscriber;
 import com.temporary.unsplashdemo.data.network.model.Photos;
 import com.temporary.unsplashdemo.ui.base.BasePresenter;
+import com.temporary.unsplashdemo.util.FirebaseEvent;
 
 import java.util.List;
 
@@ -19,6 +21,8 @@ public class MainPresenter<V extends MainContractor.View> extends BasePresenter<
 
     private PhotosInteractor photosInteractor = new PhotosInteractor();
 
+    FirebaseAnalytics firebaseAnalytics;
+
     @Inject
     public MainPresenter() {
     }
@@ -26,10 +30,12 @@ public class MainPresenter<V extends MainContractor.View> extends BasePresenter<
     @Override
     public void setView(V view) {
         super.setView(view);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(view.getContext());
         getFirstPage();
     }
 
     private void getFirstPage() {
+        getNextPage(0);
         getNextPage(1);
     }
 
@@ -38,6 +44,11 @@ public class MainPresenter<V extends MainContractor.View> extends BasePresenter<
 //        photosInteractor.fetchPhotoList(new FetchPhotosCallBack(), pageCount);
         photosInteractor.fetchPhotoListRX(new FetchPhotosObserver(getView()), pageCount);
     }
+
+    public void logEvent(@FirebaseEvent String event) {
+        firebaseAnalytics.logEvent(event, null);
+    }
+
 
     public class FetchPhotosObserver extends BaseSubscriber<List<Photos>> {
 

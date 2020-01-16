@@ -1,9 +1,11 @@
 package com.temporary.unsplashdemo.ui.search;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.temporary.unsplashdemo.data.interactors.SearchInteractor;
 import com.temporary.unsplashdemo.data.network.BaseSubscriber;
 import com.temporary.unsplashdemo.data.network.model.Response;
 import com.temporary.unsplashdemo.ui.base.BasePresenter;
+import com.temporary.unsplashdemo.util.FirebaseEvent;
 
 import javax.inject.Inject;
 
@@ -15,13 +17,23 @@ public class SearchPresenter<V extends SearchContractor.View> extends BasePresen
     private SearchInteractor searchInteractor = new SearchInteractor();
 
     @Inject
+    FirebaseAnalytics firebaseAnalytics;
+
+    @Inject
     public SearchPresenter() {
 
+    }
+
+    @Override
+    public void setView(V view) {
+        super.setView(view);
+//        firebaseAnalytics = FirebaseAnalytics.getInstance(view.getContext());
     }
 
     public void getSearchResult(CharSequence query, int page) {
         getView().showProgress();
         searchInteractor.getSearchResult(new SearchUsersObserver(getView()), query.toString(), page);
+        firebaseAnalytics.logEvent(FirebaseEvent.SEARCH_REQUEST, null);
     }
 
     public class SearchUsersObserver extends BaseSubscriber<Response> {

@@ -1,5 +1,7 @@
 package com.temporary.unsplashdemo.ui.base;
 
+import android.content.Context;
+
 public interface BaseContractor {
 
     interface View {
@@ -8,6 +10,8 @@ public interface BaseContractor {
         void showProgress();
 
         void hideProgress();
+
+        Context getContext();
     }
 
     interface Presenter<V extends BaseContractor.View> {

@@ -16,6 +16,7 @@ import com.temporary.unsplashdemo.R;
 import com.temporary.unsplashdemo.data.network.model.Photos;
 import com.temporary.unsplashdemo.ui.base.BaseActivity;
 import com.temporary.unsplashdemo.ui.search.SearchActivity;
+import com.temporary.unsplashdemo.util.FirebaseEvent;
 import com.temporary.unsplashdemo.util.PaginationListener;
 
 import java.util.List;
@@ -84,6 +85,7 @@ public class MainActivity extends BaseActivity implements MainContractor.View {
             case R.id.menu_search:
                 Intent intent = new Intent(this, SearchActivity.class);
                 startActivity(intent);
+                presenter.logEvent(FirebaseEvent.SEARCH_CLICK);
                 return false;
         }
         return super.onOptionsItemSelected(item);

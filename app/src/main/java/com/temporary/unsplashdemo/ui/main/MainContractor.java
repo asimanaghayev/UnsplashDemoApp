@@ -3,6 +3,7 @@ package com.temporary.unsplashdemo.ui.main;
 import com.temporary.unsplashdemo.data.network.model.Photos;
 import com.temporary.unsplashdemo.ui.base.BaseContractor;
 import com.temporary.unsplashdemo.ui.base.BasePresenter;
+import com.temporary.unsplashdemo.util.FirebaseEvent;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface MainContractor {
 
     interface Presenter<V extends MainContractor.View> extends BaseContractor.Presenter<V> {
         void getNextPage(int pageCount);
+
+        void logEvent(@FirebaseEvent String event);
     }
 
 }

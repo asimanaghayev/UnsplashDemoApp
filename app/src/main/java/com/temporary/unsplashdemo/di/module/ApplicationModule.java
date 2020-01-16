@@ -1,5 +1,6 @@
 package com.temporary.unsplashdemo.di.module;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 

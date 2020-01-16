@@ -3,6 +3,7 @@ package com.temporary.unsplashdemo.di.component;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.temporary.unsplashdemo.di.ApplicationContext;
 import com.temporary.unsplashdemo.di.module.ApplicationModule;
 import com.temporary.unsplashdemo.root.UnsplashDemoApp;
