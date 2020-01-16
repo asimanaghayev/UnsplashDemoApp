@@ -27,10 +27,10 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.name)
     TextView name;
 
-    public UserViewHolder(@NonNull View itemView) {
-        super(itemView);
-        ButterKnife.bind(this, itemView);
-        view = itemView;
+    public UserViewHolder(@NonNull View view) {
+        super(view);
+        ButterKnife.bind(this, view);
+        this.view = view;
     }
 
     public void bind(Context context, final User user, final ItemClickListener userItemClickListener) {

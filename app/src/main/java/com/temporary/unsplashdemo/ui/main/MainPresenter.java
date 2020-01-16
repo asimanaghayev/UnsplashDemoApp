@@ -30,6 +30,7 @@ public class MainPresenter<V extends MainContractor.View> extends BasePresenter<
     }
 
     private void getFirstPage() {
+        getNextPage(0);
         getNextPage(1);
     }
 

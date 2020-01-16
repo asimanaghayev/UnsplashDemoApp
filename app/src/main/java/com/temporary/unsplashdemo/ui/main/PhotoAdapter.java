@@ -11,18 +11,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import com.temporary.unsplashdemo.R;
 import com.temporary.unsplashdemo.data.network.model.Photos;
+import com.temporary.unsplashdemo.ui.search.ItemClickListener;
 
 import java.util.List;
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
     List<Photos> mPhotos;
 
+    private ItemClickListener itemClickListener;
+
     public PhotoAdapter() {
 
     }
 
-    public PhotoAdapter(List<Photos> mPhotos) {
+    public PhotoAdapter(List<Photos> mPhotos, ItemClickListener itemClickListener) {
         this.mPhotos = mPhotos;
+        this.itemClickListener = itemClickListener;
+    }
+
+    public void setItemClickListener(ItemClickListener<String> itemClickListener) {
+        this.itemClickListener = itemClickListener;
     }
 
     public void setAdapterPhotos(List<Photos> mPhotos) {
@@ -44,7 +52,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.photo_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, itemClickListener);
     }
 
     @Override
@@ -56,7 +64,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
         if (photo.getUrls().getThumb() == null)
             return;
+
         Picasso.get().load(photo.getUrls().getThumb()).into(holder.imageView);
+        holder.url = photo.getUrls().getRegular();
     }
 
     @Override
@@ -71,9 +81,17 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
         ImageView imageView;
 
-        public ViewHolder(View view) {
+        String url;
+
+        public ViewHolder(View view, final ItemClickListener itemClickListener) {
             super(view);
             imageView = view.findViewById(R.id.imageView);
+
+            view.setOnClickListener(V -> {
+                itemClickListener.onItemClick(url);
+            });
         }
+
+
     }
 }
