@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.temporary.unsplashdemo"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -69,5 +70,10 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$rootProject.dagger2Version"
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
     annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.dagger2Version"
+
+    // firebase
+    implementation 'com.google.firebase:firebase-core:17.2.2'
+    implementation 'com.google.android.gms:play-services-tagmanager:17.0.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
 
 }

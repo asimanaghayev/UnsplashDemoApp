@@ -3,6 +3,7 @@ package com.temporary.unsplashdemo.di.module;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.temporary.unsplashdemo.BuildConfig;
 import com.temporary.unsplashdemo.data.network.NetworkService;
 import com.temporary.unsplashdemo.data.prefs.PreferencesHelper;
@@ -66,6 +67,12 @@ public class ApplicationModule {
     @Singleton
     PreferencesHelper providePreferencesHelper(PreferencesManager preferencesManager) {
         return preferencesManager;
+    }
+
+    @Provides
+    @Singleton
+    FirebaseAnalytics provideFirebase(Context context) {
+        return FirebaseAnalytics.getInstance(context);
     }
 
     @Provides
