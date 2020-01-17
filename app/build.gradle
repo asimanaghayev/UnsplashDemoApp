@@ -70,4 +70,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.dagger2Version"
     annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.dagger2Version"
 
+    //Material Dialogs UI
+    implementation 'com.afollestad.material-dialogs:core:0.9.2.1'
+
 }

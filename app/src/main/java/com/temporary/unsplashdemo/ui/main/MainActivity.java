@@ -17,7 +17,7 @@ import com.temporary.unsplashdemo.data.network.model.Photos;
 import com.temporary.unsplashdemo.ui.base.BaseActivity;
 import com.temporary.unsplashdemo.ui.search.SearchActivity;
 import com.temporary.unsplashdemo.util.PaginationListener;
-import com.temporary.unsplashdemo.util.PhotoDialog;
+import com.temporary.unsplashdemo.util.PhotoDialogBuilder;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity implements MainContractor.View {
     @Inject
     MainContractor.Presenter presenter;
 
-    PhotoDialog photoDialog;
+    PhotoDialogBuilder photoDialog;
 
     private PhotoAdapter photoAdapter = new PhotoAdapter();
 
@@ -66,9 +66,7 @@ public class MainActivity extends BaseActivity implements MainContractor.View {
         getActivityComponent().inject(this);
         presenter.setView(this);
 
-        photoDialog = new PhotoDialog(this);
-
-        photoAdapter.setItemClickListener(url -> photoDialog.setImage(url));
+        photoAdapter.setItemClickListener(url -> PhotoDialogBuilder.newInstance(this).Image(url).build());
 
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         //Objects.requireNonNull(getIntent().getExtras()).getSerializable(SEARCH_RESULT);
