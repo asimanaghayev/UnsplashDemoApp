@@ -20,6 +20,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
 
     }
 }
@@ -30,5 +31,5 @@ task clean(type: Delete) {
 
 ext {
     dagger2Version = '2.20'
-    butterknifeVersion = '10.1.0'
+    butterknifeVersion = '10.2.0'
 }
