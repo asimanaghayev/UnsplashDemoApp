@@ -2,24 +2,21 @@ package com.temporary.unsplashdemo.util;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.annotation.Nullable;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 import com.temporary.unsplashdemo.R;
 
+import org.w3c.dom.Text;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class PhotoDialogBuilder {
 //    private Dialog imageDialog;
@@ -32,6 +29,8 @@ public class PhotoDialogBuilder {
     private Bitmap bitmap;
 
     private String url;
+
+    private LinearLayout imageButtonLayout;
 
     private PhotoDialogBuilder() {
 
@@ -49,15 +48,32 @@ public class PhotoDialogBuilder {
     }
 
     public PhotoDialogBuilder Image(Bitmap bitmap) {
-        bitmap= bitmap;
+        this.bitmap = bitmap;
+        return this;
+    }
+
+    public PhotoDialogBuilder ImageButton(int icon, View.OnClickListener onClickListener) {
+        return ImageButton(context.getResources().getDrawable(icon), onClickListener);
+    }
+
+    public PhotoDialogBuilder ImageButton(Drawable icon, View.OnClickListener onClickListener) {
+        ImageButton imageButton = new ImageButton(context, null, R.style.ImageDialogButtonStyle);
+
+        imageButton.setImageDrawable(icon);
+        imageButton.setOnClickListener(onClickListener);
+
+        if (imageButtonLayout == null)
+            imageButtonLayout = new LinearLayout(context);
+
+        this.imageButtonLayout.addView(imageButton);
         return this;
     }
 
     public Dialog build() {
-        return newInstance(context, bitmap, url);
+        return newInstance(context, bitmap, url, imageButtonLayout);
     }
 
-    private static Dialog newInstance(Context context, Bitmap bitmap, String url) {
+    private static Dialog newInstance(Context context, Bitmap bitmap, String url, LinearLayout imageButtonLayout) {
 
         MaterialDialog dialog = new MaterialDialog.Builder(context)
                 .customView(R.layout.dialog_photo, false)
@@ -65,12 +81,14 @@ public class PhotoDialogBuilder {
 
         ImageView dialogImage = (ImageView) dialog.findViewById(R.id.image_view);
 
-        if(bitmap != null)
+        if (bitmap != null)
             dialogImage.setImageBitmap(bitmap);
 
-        if(StringUtils.notEmpty(url))
+        if (StringUtils.notEmpty(url))
             Picasso.get().load(url).into(dialogImage);
 
+        LinearLayout imageButtons = (LinearLayout) dialog.findViewById(R.id.image_button_list);
+        imageButtons.addView(imageButtonLayout);
         return dialog;
     }
 }

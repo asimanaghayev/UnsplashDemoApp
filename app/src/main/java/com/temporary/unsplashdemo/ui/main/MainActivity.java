@@ -1,25 +1,31 @@
 package com.temporary.unsplashdemo.ui.main;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.squareup.picasso.Picasso;
 import com.temporary.unsplashdemo.R;
 import com.temporary.unsplashdemo.data.network.model.Photos;
 import com.temporary.unsplashdemo.ui.base.BaseActivity;
 import com.temporary.unsplashdemo.ui.search.SearchActivity;
+import com.temporary.unsplashdemo.util.EmptyTarget;
 import com.temporary.unsplashdemo.util.PaginationListener;
 import com.temporary.unsplashdemo.util.PhotoDialogBuilder;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -66,7 +72,23 @@ public class MainActivity extends BaseActivity implements MainContractor.View {
         getActivityComponent().inject(this);
         presenter.setView(this);
 
-        photoAdapter.setItemClickListener(url -> PhotoDialogBuilder.newInstance(this).Image(url).build());
+        photoAdapter.setItemClickListener(url -> {
+            PhotoDialogBuilder.newInstance(this)
+                    .Image(url)
+                    .ImageButton(R.drawable.ic_info_brown, v -> {
+                        Picasso.get().load(url).into(new EmptyTarget() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                super.onBitmapLoaded(bitmap, from);
+                                MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "UnsplashDemo"+ new Random().toString(), "demo");
+                                Toast.makeText(getApplicationContext(), "Media saved to gallery", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    })
+                    .ImageButton(R.drawable.ic_download_brown, v -> {
+                    })
+                    .build();
+        });
 
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         //Objects.requireNonNull(getIntent().getExtras()).getSerializable(SEARCH_RESULT);
